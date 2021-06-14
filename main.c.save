@@ -1,0 +1,161 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#include "student.h"
+#include "kolegij.h"
+#include "podatci.h"
+#include "polozeno.h"
+
+int main()
+{
+    posPolozeno headPolozeno = NULL;
+    headPolozeno = CreateNodePolozeno();
+    ReadPolozenoFromFile(headPolozeno);
+
+    posST headST= NULL;
+    posKO headKO= NULL;
+
+    headST = CreateNodeST();
+    headKO = CreateNodeKO();
+
+    char izbor = 0;
+
+    while(toupper(izbor) != 'L')
+	{
+		printf("*************************************************************************\r\n");
+		printf("*************     SEMINAR IZ KOLEGIJA STRUKTURE PODATAKA    *************\r\n");
+		printf("*************************************************************************\r\n");
+		printf("\r\n\r\n");
+		printf("\t1. Unos studenata u listu\r\n");
+		printf("\t2. Ispis sortirane liste studenata\r\n");
+		printf("\t3. Unos kolegija u listu\r\n");
+		printf("\t4. Ispis liste kolegija\r\n");
+		printf("\t5. Ispis podataka o studentima\r\n");
+		printf("\t6. Unos novog studenta u listu\r\n");
+		printf("\t7. Brisanje studenta\r\n");
+        printf("\t8. Ispis studenata koji su polozili odredeni kolegij\r\n");
+		printf("\t9. Ispis svih studenata koji su zavrsili akademsku godinu s odredenom ocjenom\r\n");
+		printf("\tA. Ispis podataka o odredenom studentu po id-u\r\n");
+		printf("\tB. Ispis podataka o odredenom studentu po prezimenu\r\n");
+        printf("\tC. Ispis podataka o odredenom studentu prema godini rodenja\r\n");
+		printf("\tD. Lista studenata koji moraju platiti puni iznos skolarine\r\n");
+		printf("\tE. Lista studenata koji moraju platiti samo iznos upisnine\r\n");
+		printf("\tF. Lista studenata koji moraju platiti iznos participacije\r\n");
+		printf("\tG. Lista studenata koji ponavljaju akademsku godinu\r\n");
+		printf("\tH. Lista kolegija koji nose odredeni broj ECTS bodova\r\n");
+        printf("\tI. Lista studenata koji su polozili odredeni kolegij s odredenom ocjenom\r\n");
+        printf("\tJ. Ispis studenta s najvisim prosjekom\r\n");
+        printf("\tK. Prosjecna ocjena svih studenata\r\n");
+
+		printf("\tL. Izlaz iz programa\r\n");
+		printf("\n\n**********  Izradile: Mia Gudic, Lara Mladinic, Petra Vujevic. **********\r\n");
+		printf("\n\r\n\tIzbor : ");
+
+		scanf(" %c", &izbor);
+
+		switch(izbor)
+		{
+		case '1' :
+			if(ReadStudentsFromFile(headST))
+                printf("\nUspjesno unesena lista studenata.\n\n\n");
+            else
+                {
+                    printf("\nGreska pri unosu liste studenata.\n\n\n");
+                    return 1;
+                }
+			break;
+		case '2' :
+		    printf("\n\nIspis liste studenata:\n\n");
+			PrintStudentList(headST->next);
+			printf("\n\n\n");
+			break;
+		case '3' :
+			ReadKolegijFromFile(headKO);
+			printf("\nUspjesno unesena lista kolegija.\n\n\n");
+			break;
+		case '4' :
+		    printf("\n\nIspis liste kolegija:\n\n");
+			PrintKolegijList(headKO->down);
+			printf("\n\n\n");
+			break;
+		case '5' :
+			printf("\n\n\nPODATCI O STUDENTIMA:\n\n__________________________________________________________________________\n\n");
+            ReadPodatciFromFile(headST, headKO);
+            RacunanjePodataka(headST->next);
+            PrintList(headST->next);
+			break;
+		case '6' :
+		    if(AddStudent(headST, headKO))
+                printf("\nUspjesno dodan novi student.\n\n\n");
+            else
+                {
+                    printf("\nGreska pri unosu novog studenta.\n\n\n");
+                    return 1;
+                }
+			break;
+		case '7' :
+		    if(DeleteStudent(headST->next, headPolozeno))
+            {
+                UpdateStudentList(headST->next);
+                UpdatePolozenoFile(headPolozeno->next);
+                printf("\nUspjesno izbrisan student.\n\n\n");
+            }
+
+            else
+                {
+                    printf("\nGreska pri brisanju studenta.\n\n\n");
+                    return 1;
+                }
+			break;
+		case '8':
+			StudentiPoloziliKolegij(headST->next, headKO->down);
+			break;
+		case '9':
+			GetStudentsByAverageGrade(headST->next);
+			break;
+		case 'A' :
+			GetStudentById(headST->next);
+			break;
+        case 'B' :
+			GetStudentBySurname(headST->next);
+			break;
+        case 'C' :
+			GetStudentByYearOfBirth(headST->next);
+			break;
+        case 'D' :
+			GetStudentsBySkolarina(headST->next);
+			break;
+        case 'E' :
+			GetStudentsByUpisnina(headST->next);
+			break;
+        case 'F' :
+			GetStudentsByParticipacija(headST->next);
+			break;
+        case 'G' :
+			GetPonavljaci(headST->next);
+			break;
+        case 'H' :
+			GetKolegijByEcts(headKO->down);
+			break;
+        case 'I' :
+			GetStudentsByKolegijAndOcjena(headST->next, headKO->down);
+			break;
+        case 'J' :
+			FindStudentWithMaxProsjek(headST->next, headST->next->next);
+			break;
+        case 'K' :
+			ProsjecnaOcjenaSvihStudenata(headST->next);
+			break;
+		case 'l' :
+		case 'L' :
+			break;
+		default:
+			printf("\r\nPogresan izbor <%c>.\r\nPokusajte ponovno.\r\n\n\n", izbor);
+			break;
+        }
+	}
+
+    return 0;
+}

@@ -1,0 +1,69 @@
+# depslib dependency file v1.0
+1576876048 source:c:\users\acer\desktop\spfinal\kolegij.c
+	"kolegij.h"
+
+1576876047 c:\users\acer\desktop\spfinal\kolegij.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"student.h"
+	"podatci.h"
+	"polozeno.h"
+
+1576876047 c:\users\acer\desktop\spfinal\student.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"kolegij.h"
+	"polozeno.h"
+
+1576427730 c:\users\acer\desktop\spfinal\podatci.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"student.h"
+	"kolegij.h"
+
+1576876047 source:c:\users\acer\desktop\spfinal\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"student.h"
+	"kolegij.h"
+	"podatci.h"
+	"polozeno.h"
+
+1576876047 source:c:\users\acer\desktop\spfinal\podatci.c
+	"podatci.h"
+
+1576876047 source:c:\users\acer\desktop\spfinal\student.c
+	"student.h"
+	"podatci.h"
+	"polozeno.h"
+
+1576878502 source:c:\users\acer\desktop\spfinal\filteri.c
+	"filteri.h"
+
+1576878502 c:\users\acer\desktop\spfinal\filteri.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"student.h"
+	"kolegij.h"
+	"podatci.h"
+
+1576859921 c:\users\acer\desktop\spfinal\polozeno.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"student.h"
+	"kolegij.h"
+
+1576876440 source:c:\users\acer\desktop\spfinal\polozeno.c
+	"polozeno.h"
+

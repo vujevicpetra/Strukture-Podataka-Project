@@ -1,0 +1,322 @@
+#include "filteri.h"
+
+void GetStudentById(posST p)
+{
+    int id;
+    printf("\nUnesite id studenta cije podatke zelite dohvatiti:\n\n");
+    PrintStudentList(p);
+    printf("\n");
+    scanf("%d", &id);
+    printf("\n");
+
+    while(p!=NULL)
+    {
+        if(p->id_student == id)
+        {
+            PrintStudent(p);
+            PrintPodatci(p);
+            PrintKolegijList(p->down->down);
+        }
+        p = p->next;
+    }
+
+    printf("\n\n\n");
+}
+
+void GetStudentBySurname(posST p)
+{
+    char prezime[100];
+    printf("\nUnesite prezime studenta cije podatke zelite dohvatiti:\n\n");
+    PrintStudentList(p);
+    printf("\n");
+    scanf("%s", prezime);
+    printf("\n");
+
+    while(p!=NULL)
+    {
+        if(_stricmp(p->prezime, prezime)==0)
+        {
+            PrintStudent(p);
+            PrintPodatci(p);
+            PrintKolegijList(p->down->down);
+            printf("\n----------------------------------------------------------------------------------------------\n\n");
+        }
+        p = p->next;
+    }
+
+    printf("\n\n\n");
+}
+
+void GetStudentByYearOfBirth(posST p)
+{
+    int god_rod;
+
+    printf("\nUnesite godinu rodenja :\n\n");
+    PrintStudentList(p);
+    printf("\n");
+
+    scanf("%d", &god_rod);
+    printf("\n");
+
+    if(p->god_rod != god_rod)
+        {
+        printf("\nNe postoji student s upisanom godinom rodenja.\n");
+        GetStudentByYearOfBirth(p);
+        }
+
+
+    while(p!=NULL)
+    {
+        if(p->god_rod == god_rod)
+            PrintStudent(p);
+
+        p = p->next;
+    }
+
+}
+
+void StudentiPoloziliKolegij(posST p, posKO q)
+{
+    int id;
+
+    printf("Unesite id kolegija za kojeg zelite dohvatiti studente koji su ga polozili:\n");
+    PrintKolegijList(q);
+    scanf("%d", &id);
+
+    while(p != NULL)
+    {
+        posKO temp = p->down->down;
+
+        while(temp != NULL)
+        {
+            if(temp->id_kolegij == id)
+                PrintStudent(p);
+
+            temp = temp->down;
+        }
+
+        p = p->next;
+    }
+}
+
+
+void GetStudentsByAverageGrade(posST p)
+{
+    int ocjena;
+
+    printf("\nUnesite ocjenu: \n");
+    scanf("%d", &ocjena);
+    printf("\n");
+
+    if(ocjena == 1)
+        printf("Sljedeci studenti nisu polozili niti jedan kolegij:\n\n");
+    else
+        printf("Sljedeci studenti su polozili akademsku godinu s ocjenom %d:\n\n", ocjena);
+
+    while(p != NULL)
+    {
+        CheckAverageGrade(p, ocjena);
+
+        p = p->next;
+    }
+
+    printf("\n\n\n");
+}
+
+void CheckAverageGrade(posST p, int ocjena)
+{
+    posPO r = p->down;
+
+    if(ocjena == 1)
+    {
+        if(r->prosjek < 2.0)
+            {
+                PrintStudent(p);
+            }
+    }
+    else if(ocjena == 2)
+    {
+        if(r->prosjek >= 2.0 && r->prosjek < 2.5)
+            PrintStudent(p);
+    }
+    else if(ocjena == 3)
+    {
+        if(r->prosjek >= 2.5 && r->prosjek < 3.5)
+            PrintStudent(p);
+    }
+    else if(ocjena == 4)
+    {
+        if(r->prosjek >= 3.5 && r->prosjek < 4.5)
+            PrintStudent(p);
+    }
+    else if(ocjena == 5)
+    {
+        if(r->prosjek >= 4.5)
+            PrintStudent(p);
+    }
+}
+
+void GetStudentsBySkolarina(posST p)
+{
+    while(p!=NULL)
+    {
+        if (p->down->skolarina == 8400)
+            PrintStudent(p);
+
+        p = p->next;
+    }
+     printf("\n\n\n");
+}
+
+void GetStudentsByUpisnina(posST p)
+{
+    while(p!=NULL)
+    {
+        if (p->down->skolarina == 400)
+            PrintStudent(p);
+
+        p = p->next;
+    }
+     printf("\n\n\n");
+}
+
+void GetStudentsByParticipacija(posST p)
+{
+    while(p!=NULL)
+    {
+        if (p->down->skolarina > 400 && p->down->skolarina < 8400)
+            PrintStudent(p);
+
+        p = p->next;
+    }
+     printf("\n\n\n");
+}
+
+void GetPonavljaci(posST p)
+{
+    while(p!=NULL)
+    {
+        if(p->down->pol_ects < 42)
+             PrintStudent(p);
+
+        p = p ->next;
+    }
+     printf("\n\n\n");
+}
+
+void GetKolegijByEcts(posKO q)
+{
+    int ects;
+    printf("Unesite broj ECTS bodova:\n");
+    scanf("%d",&ects);
+
+    if(q->ects_kol != ects)
+        {
+        printf("\nNe postoji kolegij s unesenim brojem ECTS bodova.\n");
+        GetKolegijByEcts(q);
+        }
+
+    while(q!=NULL)
+    {
+        if(q->ects_kol == ects)
+            PrintKolegij(q);
+
+        q = q->down;
+    }
+        printf("\n\n\n");
+
+}
+
+void GetStudentsByKolegijAndOcjena(posST p, posKO q)
+{
+    int id_kol, ocjena;
+
+    printf("\nLista kolegija:\n\n");
+    PrintKolegijList(q);
+    printf("\n\nUnesite id kolegija i ocjenu:\n");
+    scanf("%d %d", &id_kol, &ocjena);
+    printf("\n");
+
+    if(id_kol > 10 || ocjena > 5)
+    {
+        printf("Unijeli ste pogresan id kolegija ili ocjenu.\n\n");
+        GetStudentsByKolegijAndOcjena(p,q);
+    }
+
+
+    while(p != NULL)
+    {
+        posKO temp = p->down->down;
+
+        while(temp != NULL)
+        {
+            if(temp->id_kolegij == id_kol && temp->ocjena == ocjena)
+                PrintStudent(p);
+
+            temp = temp->down;
+        }
+
+        p = p->next;
+    }
+        printf("\n\n\n");
+}
+
+
+
+/*
+int FindMaxProsjek(posST p, posST r)
+{
+    double maxprosjek = 0.00;
+
+    while(p != NULL && r != NULL)
+    {
+
+        posPO tempP = p->down;
+        posPO tempR = r->down;
+
+        if(tempP->prosjek < tempR->prosjek || tempP->prosjek == tempR->prosjek)
+        {
+            p = p -> next;
+            r = r -> next;
+
+        }
+        else if(tempP->prosjek > tempR->prosjek)
+        {
+            r = r -> next;
+        }
+
+        maxprosjek = tempR->prosjek;
+    }
+
+    return maxprosjek;
+}*/
+
+
+void FindStudentWithMaxProsjek(posST p, posST r)
+{
+    posPO tempP = NULL;
+    posPO tempR = NULL;
+
+    while(p != NULL && r != NULL)
+    {
+        tempP = p->down;
+        tempR = r->down;
+
+        if(tempP->prosjek < tempR->prosjek || tempP->prosjek == tempR->prosjek)
+        {
+            p = p -> next;
+            //r = r;
+        }
+        else if(tempP->prosjek > tempR->prosjek)
+        {
+            //p = p;
+            r = r -> next;
+        }
+
+    }
+
+
+    PrintStudent(r);
+}
+
+
