@@ -55,7 +55,7 @@ int main()
         printf("\tI. Prosjecna ocjena svih studenata\r\n");
 
 		printf("\tK. Izlaz iz programa\r\n");
-		printf("\n\n**********  Izradile: Mia Gudic, Lara Mladinic, Petra Vujevic. **********\r\n");
+		printf("\n\n**********  Izradile: Mia Gudic, Petra Vujevic. **********\r\n");
 		printf("\n\r\n\tIzbor : ");
 
 		scanf(" %c", &izbor);
